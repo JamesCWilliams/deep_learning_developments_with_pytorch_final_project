@@ -1,0 +1,27 @@
+What papers have you read? Please add reference sections? Otherwise I'm lost on what specific algorithms / ideas you're considering!
+-- I'm looking specifically for Genetic Algorithms: 
+Specify. What kind of crossover for neural networks.
+Harder benchmarks --> pick a harder discrete or give up on discrete control (move to continuous control).
+What have others done in the space? Please add in SAC and TD3 <-- because the work you're doing might be useful for DQN, but likely won't for MaxEntRL policies. 
+https://github.com/vwxyzjn/cleanrl/tree/master
+^^ use this, test over a larger benchmark, get it to work with SAC (would require to be discrete), PPO, DQN <-- TD3, SAC 
+10 seeds. 
+4 environments, please for each of those environments set a specific "this is where we will cut off and stop training to evaluate performance marker". <- fairness, how is your set of experiments fair?
+
+2 genetic algorithms (be specific and say why you picked these two)
+SAC, TD3, PPO
+4 environments (you pick, I prefer continuous)
+(2) Hopper-v5, (4) Ant-v5, (3) Half-Cheetah-v5, (1) Pusher-v5. 
+10 seeds
+
+1. Build out my code / setup environment around https://github.com/vwxyzjn/cleanrl/tree/master 
+2. Get in an integration with weights and biases (it should be pretty automatic to set up, as a student you get 100GB of free storage, this is worth your time).
+3.  Run your complete set with random initialization. Get your full baseline going across all 3 RL algorithms.  (expecting this to be done when we talk next -- in 3 weeks).
+4. Implement your Genetic Algorithms 
+5. Comparison --> global step
+6. Don't evaluate based on solely reward, but instead based upon <-- by fragile, what you "mean" is that there is high return variance. Evaluate whether the return variance is lower. Given the same number of training steps, with a GA, does your variance get lower. 
+Your comparison should be at the final timestep (that you set in advance). I would recommend saving off your models. Again, using weights and biases to manage your saved saved models for you. Then, write some inference code to carry out your analysis of variance performance. 
+https://proceedings.neurips.cc/paper_files/paper/2021/hash/f514cec81cb148559cf475e7426eed5e-Abstract.html
+Idea for evaluation:
+1. Part 1 -> evaluate with standard run
+2. Part 2 -> perturb the environment and/or the weights and evaluate.
