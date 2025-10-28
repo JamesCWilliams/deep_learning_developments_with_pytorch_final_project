@@ -1,1 +1,3 @@
 cleanrl
+wandb
+gymnasium
