@@ -1,1 +1,6 @@
 venv/
+wandb/
+videos/
+runs/
+data/
+**/__pycache__/

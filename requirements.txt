@@ -1,3 +1,21 @@
-cleanrl
-wandb
-gymnasium
+# core RL stack (Gymnasium + MuJoCo)
+gymnasium>=1.0,<2.0
+mujoco>=3.1.6,<4.0
+shimmy>=2.0,<3.0
+
+# cleanRL runtime deps (since we install CleanRL with --no-deps)
+tyro>=0.5.10
+rich<12.0
+moviepy>=1.0.3
+pygame>=2.1
+tensorboard>=2.10.0
+huggingface-hub>=0.11.1
+tenacity>=8.2.2
+
+# logging / utilities
+wandb>=0.17
+numpy>=1.26
+tqdm>=4.66
+cloudpickle>=3.0
+pandas>=2.2
+matplotlib>=3.8
