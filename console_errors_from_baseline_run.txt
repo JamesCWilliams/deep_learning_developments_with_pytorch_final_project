@@ -1,0 +1,873 @@
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Ant-v5__td3__9__1762668050
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/j4ss6fce
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Ant-v5__td3__9__1762668050 at: 
+wandb: Find logs at: wandb/run-20251109_010050-j4ss6fce/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010103-pfgzi84b
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Ant-v5__td3__10__1762668062
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/pfgzi84b
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Ant-v5__td3__10__1762668062 at: 
+wandb: Find logs at: wandb/run-20251109_010103-pfgzi84b/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010117-f4e6l2vk
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__1__1762668076
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/f4e6l2vk
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__1__1762668076 at: 
+wandb: Find logs at: wandb/run-20251109_010117-f4e6l2vk/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010129-2qh33b81
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__2__1762668088
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/2qh33b81
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__2__1762668088 at: 
+wandb: Find logs at: wandb/run-20251109_010129-2qh33b81/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010143-zkbosq0v
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__3__1762668103
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/zkbosq0v
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__3__1762668103 at: 
+wandb: Find logs at: wandb/run-20251109_010143-zkbosq0v/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010156-47tpyhna
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__4__1762668115
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/47tpyhna
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__4__1762668115 at: 
+wandb: Find logs at: wandb/run-20251109_010156-47tpyhna/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010210-g55vrwmb
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__5__1762668129
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/g55vrwmb
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__5__1762668129 at: 
+wandb: Find logs at: wandb/run-20251109_010210-g55vrwmb/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010222-otoofi58
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__6__1762668143
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/otoofi58
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__6__1762668143 at: 
+wandb: Find logs at: wandb/run-20251109_010222-otoofi58/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010236-zulzc8eu
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__7__1762668156
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/zulzc8eu
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__7__1762668156 at: 
+wandb: Find logs at: wandb/run-20251109_010236-zulzc8eu/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010250-a445q0uv
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__8__1762668170
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/a445q0uv
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__8__1762668170 at: 
+wandb: Find logs at: wandb/run-20251109_010250-a445q0uv/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010303-ifi8ci0p
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__9__1762668182
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/ifi8ci0p
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__9__1762668182 at: 
+wandb: Find logs at: wandb/run-20251109_010303-ifi8ci0p/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010317-2z6zmgmi
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run HalfCheetah-v5__td3__10__1762668196
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/2z6zmgmi
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run HalfCheetah-v5__td3__10__1762668196 at: 
+wandb: Find logs at: wandb/run-20251109_010317-2z6zmgmi/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010329-jzzbyjly
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__1__1762668209
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/jzzbyjly
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__1__1762668209 at: 
+wandb: Find logs at: wandb/run-20251109_010329-jzzbyjly/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010344-cgf7nmnf
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__2__1762668223
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/cgf7nmnf
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__2__1762668223 at: 
+wandb: Find logs at: wandb/run-20251109_010344-cgf7nmnf/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010356-i2kwnt84
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__3__1762668235
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/i2kwnt84
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__3__1762668235 at: 
+wandb: Find logs at: wandb/run-20251109_010356-i2kwnt84/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010410-p31y3nnn
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__4__1762668249
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/p31y3nnn
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__4__1762668249 at: 
+wandb: Find logs at: wandb/run-20251109_010410-p31y3nnn/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010424-foiqtnqy
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__5__1762668264
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/foiqtnqy
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__5__1762668264 at: 
+wandb: Find logs at: wandb/run-20251109_010424-foiqtnqy/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010437-8ynz4ece
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__6__1762668276
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/8ynz4ece
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__6__1762668276 at: 
+wandb: Find logs at: wandb/run-20251109_010437-8ynz4ece/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010451-6y6mhanp
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__7__1762668290
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/6y6mhanp
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__7__1762668290 at: 
+wandb: Find logs at: wandb/run-20251109_010451-6y6mhanp/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010503-pfe9xf5b
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__8__1762668303
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/pfe9xf5b
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__8__1762668303 at: 
+wandb: Find logs at: wandb/run-20251109_010503-pfe9xf5b/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010518-yi7q11hb
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__9__1762668317
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/yi7q11hb
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__9__1762668317 at: 
+wandb: Find logs at: wandb/run-20251109_010518-yi7q11hb/logs
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/tyro/_parsers.py:379: UserWarning: The field `wandb-entity` is annotated with type `<class 'str'>`, but the default value `None` has type `<class 'NoneType'>`. We'll try to handle this gracefully, but it may cause unexpected behavior.
+  warnings.warn(message)
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Currently logged in as: james-c-williams (ga-rl-final-project) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.22.2
+wandb: Run data is saved locally in /home/james/code/deep_learning_developments_with_pytorch_final_project/wandb/run-20251109_010530-2pynk1hw
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Pusher-v5__td3__10__1762668329
+wandb: ⭐️ View project at https://wandb.ai/ga-rl-final-project/baseline
+wandb: 🚀 View run at https://wandb.ai/ga-rl-final-project/baseline/runs/2pynk1hw
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `reset()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `reset()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:134: UserWarning: WARN: The obs returned by the `step()` method was expecting numpy array dtype to be <class 'numpy.float32'>, actual type: float64
+  logger.warn(
+/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/gymnasium/utils/passive_env_checker.py:158: UserWarning: WARN: The obs returned by the `step()` method is not within the observation space.
+  logger.warn(f"{pre} is not within the observation space.")
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+Traceback (most recent call last):
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/home/james/.pyenv/versions/3.10.14/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/james/code/deep_learning_developments_with_pytorch_final_project/venv/lib/python3.10/site-packages/cleanrl/td3_continuous_action.py", line 222, in <module>
+    real_next_obs[idx] = infos["final_observation"][idx]
+KeyError: 'final_observation'
+wandb: 
+wandb: 🚀 View run Pusher-v5__td3__10__1762668329 at: 
+wandb: Find logs at: wandb/run-20251109_010530-2pynk1hw/logs
+All baselines finished.
+(venv) james@DESKTOP-LS2C6QT:~/code/deep_learning_developments_with_pytorch_final_project$ 
