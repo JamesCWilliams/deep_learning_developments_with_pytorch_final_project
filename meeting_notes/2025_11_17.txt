@@ -1,0 +1,37 @@
+1M <-- everyone.
+
+2 GA algorithms to use: (1) layerwise crossover: each layer blended via array masks (2) gaussian mutation (maybe won't perform well). Pushing two layers doesn't work for productive phenotype. 
+Gaussian -- no crossover, stronger mutation annealing -- introducing a novelty search with the fitness function. <-- robust search as we move into the future? 
+Ensure there's strong diversity in weights as we grow, but still... optimizing mostly for fitness? But keep networks for novelty.
+
+Novelty via mutation.
+
+https://www.arxiv.org/pdf/2509.21613
+
+https://papers.nips.cc/paper_files/paper/2019/file/4a46fbfca3f1465a27b210f4bdfe6ab3-Paper.pdf
+
+How does your approach towards diversity differ from a MORL approach? Answer this question.
+
+We have coded up layerwise and gaussian mutation.
+
+Do you think it hits a local maximum and gets stuck?
+
+GA -> DRL ? Pathway. Work needs to be done?
+
+How are you going to handle buffers?
+
+^ what would be more fair?
+
+Are you bringing over actors? Or actors and critics?
+
+^^ questions to think through.
+
+Please bring your benchmark results 
+Please bring your code for GA + Gaussian Mutation
+Please bring your theoretical plan for doing "connecting of piece". 
+
+Just start with loading the actor and no buffer.
+
+What happens if you do switching of phases it do GA -> DRL -> GA -> DRL
+
+Swapping training mechanism

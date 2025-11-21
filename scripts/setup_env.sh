@@ -122,7 +122,7 @@ pip install -r requirements.txt
 
 # patch CleanRL wrappers for Gymnasium 1.x (v5 envs)
 python - <<'PY'
-import io, re, shutil, inspect, importlib
+import io, re, shutil, inspect, importlib, os
 
 modules = [
     "cleanrl.ppo_continuous_action",
@@ -130,7 +130,8 @@ modules = [
     "cleanrl.td3_continuous_action",
 ]
 
-pat = re.compile(
+# --- Patch 1: ensure TransformObservation has observation_space=... (Gymnasium compat) ---
+pat_to = re.compile(
     r"""gym\.wrappers\.TransformObservation\(
         \s*env\s*,\s*
         (?P<fn>
@@ -142,8 +143,8 @@ pat = re.compile(
     re.VERBOSE,
 )
 
-def patch_source(src: str):
-    n=0
+def patch_transform_observation(src: str):
+    n = 0
     def repl(m):
         nonlocal n
         call = m.group(0)
@@ -152,27 +153,71 @@ def patch_source(src: str):
         n += 1
         fn = m.group("fn").strip()
         return f"gym.wrappers.TransformObservation(env, {fn}, observation_space=env.observation_space)"
-    new = pat.sub(repl, src)
+    new = pat_to.sub(repl, src)
     return new, n
 
-total=0; touched=[]
+
+# --- Patch 2: remove monitor_gym=True from wandb.init (we’ll log videos manually) ---
+def patch_wandb_monitor(src: str):
+    n = 0
+    if "monitor_gym=True" in src:
+        src = src.replace("monitor_gym=True,", "")
+        n = 1
+    return src, n
+
+
+# --- Patch 3: insert manual W&B video logging between envs.close() and writer.close() ---
+VIDEO_TAIL_OLD = "    envs.close()\n    writer.close()\n"
+VIDEO_TAIL_NEW = """    envs.close()
+
+    if args.track and args.capture_video:
+        import glob, os, wandb
+        video_dir = f"videos/{run_name}"
+        mp4s = glob.glob(os.path.join(video_dir, "*.mp4"))
+        if mp4s:
+            latest_mp4 = max(mp4s, key=os.path.getmtime)
+            wandb.log({"rollout_video": wandb.Video(latest_mp4, fps=30, format="mp4")})
+
+    writer.close()
+"""
+
+def patch_video_tail(src: str):
+    if "rollout_video" in src:
+        return src, 0  # already patched
+    if VIDEO_TAIL_OLD in src:
+        return src.replace(VIDEO_TAIL_OLD, VIDEO_TAIL_NEW), 1
+    return src, 0
+
+
+total_changes = 0
+
 for modname in modules:
     try:
         mod = importlib.import_module(modname)
         path = inspect.getsourcefile(mod)
-        if not path: 
+        if not path:
             print(f"  - Could not locate {modname}; skipping.")
             continue
+
         src = io.open(path, "r", encoding="utf-8").read()
-        new, n = patch_source(src)
-        if n>0:
+        original = src
+        changed = 0
+
+        src, n1 = patch_transform_observation(src)
+        changed += n1
+        src, n2 = patch_wandb_monitor(src)
+        changed += n2
+        src, n3 = patch_video_tail(src)
+        changed += n3
+
+        if changed > 0 and src != original:
             shutil.copy2(path, path + ".bak")
-            io.open(path, "w", encoding="utf-8").write(new)
-            print(f"Patched {modname} ({n} change{'s' if n!=1 else ''})")
-            touched.append(path)
-            total += n
+            io.open(path, "w", encoding="utf-8").write(src)
+            print(f"Patched {modname} ({changed} change{'s' if changed != 1 else ''})")
+            total_changes += changed
         else:
             print(f"No changes needed in {modname}")
+
     except ModuleNotFoundError:
         print(f"{modname} not installed (ok if you won't use it)")
     except Exception as e:
@@ -184,7 +229,8 @@ try:
     print("Import check: cleanrl.ppo_continuous_action SUCCESS")
 except Exception as e:
     print("Import check: cleanrl.ppo_continuous_action FAIL", e)
-print(f"Summary: {total} total changes.")
+
+print(f"Summary: {total_changes} total CleanRL patches applied.")
 PY
 
 # headless rendering default
