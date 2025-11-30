@@ -26,14 +26,32 @@ def parse_args():
         choices=["uniform", "index", "blend"],
         help="Built-in crossover operator to use when breeding offspring",
     )
+    parser.add_argument(
+        "--flavor",
+        type=str,
+        default="ppo",
+        choices=["ppo", "sac", "td3"],
+        help="Algorithm flavor controlling architecture and export format.",
+    )
+    parser.add_argument(
+        "--best_actor_path",
+        type=str,
+        default=None,
+        help="Where to save the best actor parameters (default run_{flavor}.pt)",
+    )
     parser.add_argument("--episodes", type=int, default=1, help="Episodes per evaluation")
     parser.add_argument("--max_steps", type=int, default=1000)
     parser.add_argument("--unique_rollouts", action="store_true", help="Use distinct seeds per individual evaluation")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--device", type=str, default="cpu")
     parser.add_argument("--terminate_on_truncation", action="store_true")
-    parser.add_argument("--save_best", type=str, default="", help="Path to .npz for best genome")
-    parser.add_argument("--state_dict", type=str, default="", help="Optional path to save torch state dict (pt)")
+    parser.add_argument(
+        "--activation",
+        type=str,
+        default="tanh",
+        choices=["tanh", "relu"],
+        help="Hidden-layer activation for the policy network.",
+    )
     parser.add_argument(
         "--num_workers",
         type=int,
@@ -86,6 +104,9 @@ def parse_args():
 def main():
     args = parse_args()
 
+    if args.best_actor_path is None:
+        args.best_actor_path = f"run_{args.flavor}.pt"
+
     config = GeneticAlgorithmConfig(
         env_id=args.env_id,
         population_size=args.population_size,
@@ -108,6 +129,9 @@ def main():
         novelty_method=args.novelty_method,
         novelty_weight=args.novelty_weight,
         novelty_neighbors=args.novelty_neighbors,
+        policy_activation=args.activation,
+        flavor=args.flavor,
+        best_actor_path=args.best_actor_path,
     )
 
     trainer = GeneticAlgorithmTrainer(config)
@@ -116,20 +140,16 @@ def main():
         print(json.dumps(stats))
 
     final_population = trainer.run(callback=log_callback)
-    best = final_population.best()
+    best = final_population.best_by_raw_fitness()
     if best is None:
         raise RuntimeError("No evaluated individuals found; ensure at least one generation ran.")
 
-    print(json.dumps({"best_fitness": best.fitness}))
+    print(json.dumps({"best_fitness": best.raw_fitness}))
 
-    if args.save_best:
-        output_path, state_dict = trainer.export_best(args.save_best)
-        print(f"Saved best genome to {output_path}")
-        if args.state_dict:
-            import torch
-
-            torch.save(state_dict, args.state_dict)
-            print(f"Saved PyTorch state dict to {args.state_dict}")
+    saved_actor_path = trainer.save_best_actor(
+        flavor=args.flavor, output_path=args.best_actor_path
+    )
+    print(f"Saved best actor parameters to {saved_actor_path}")
 
 
 if __name__ == "__main__":

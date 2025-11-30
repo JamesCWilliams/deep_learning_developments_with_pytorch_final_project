@@ -10,7 +10,7 @@ Train a population with the built-in script:
 python train_ga.py --env_id HalfCheetah-v5 --population_size 64 --generations 50 \
     --episodes 2 --max_steps 1000 --unique_rollouts --num_workers 4 \
     --novelty --novelty-method nearest_neighbors --novelty-weight 0.5 --novelty-neighbors 5 \
-    --save_best halfcheetah_ga.npz --state_dict halfcheetah_ga.pt
+    --best_actor_path halfcheetah_ga.pt
 ```
 
 Key flags:
@@ -19,17 +19,17 @@ Key flags:
 - `--generations` how many rounds to run.
 - `--episodes` and `--max_steps` control rollout length.
 - `--num_workers` enables parallel evaluation.
-- `--save_best` writes the top genome (`.npz`), `--state_dict` saves PyTorch weights.
+- `--best_actor_path` writes the top-performing policy parameters.
+- `--activation` chooses the policy activation (`tanh` or `relu`).
 
 Switch crossover with `--crossover_type` (`uniform`, `index`, or `blend`). Enable novelty search with `--novelty` (alias `--novelty_search`) and tune it via `--novelty-method`, `--novelty-weight`, and `--novelty-neighbors`.
 
 ## Export and evaluate
 
-After training, load the saved state dict for quick checks:
-
-```bash
-python evaluate_state_dict.py best_weights.pt --env_id HalfCheetah-v5 --episodes 5
-```
+After training, the top-performing actor parameters are written to ``--best_actor_path``
+(``run_{flavor}.pt`` by default). Load this artifact with ``torch.load`` in your
+deployment or evaluation pipeline. If you have a standard PyTorch state dict from other
+workflows, ``evaluate_state_dict.py`` can roll it out for quick checks.
 
 ## Project layout
 

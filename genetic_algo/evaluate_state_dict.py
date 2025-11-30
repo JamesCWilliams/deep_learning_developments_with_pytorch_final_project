@@ -2,6 +2,7 @@
 
 import argparse
 from pathlib import Path
+from typing import Optional
 
 import gymnasium as gym
 import numpy as np
@@ -44,7 +45,7 @@ def evaluate_policy(env_id, policy, episodes=5, max_steps=1000, seed=0, render=F
     return float(np.mean(returns))
 
 
-def load_policy_from_state_dict(env_id, state_dict_path, device="cpu"):
+def load_policy_from_state_dict(env_id, state_dict_path, activation="tanh", device="cpu"):
     """
     Instantiate :class:`MLPActor` for ``env_id`` and load weights from ``state_dict_path``.
 
@@ -54,7 +55,7 @@ def load_policy_from_state_dict(env_id, state_dict_path, device="cpu"):
     """
 
     env = gym.make(env_id)
-    policy = MLPActor.default_from_env(env, device=device)
+    policy = MLPActor.default_from_env(env, device=device, activation=activation)
     env.close()
 
     state_dict = torch.load(state_dict_path, map_location=device)
@@ -73,10 +74,19 @@ def main(argv: Optional[list[str]] = None):
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--render", action="store_true")
     parser.add_argument("--device", type=str, default="cpu")
+    parser.add_argument(
+        "--activation",
+        type=str,
+        default="tanh",
+        choices=["tanh", "relu"],
+        help="Hidden-layer activation used during training (tanh or relu).",
+    )
     parser.add_argument("--terminate_on_trunc", action="store_true")
     args = parser.parse_args(argv)
 
-    policy = load_policy_from_state_dict(args.env_id, args.state_dict, device=args.device)
+    policy = load_policy_from_state_dict(
+        args.env_id, args.state_dict, activation=args.activation, device=args.device
+    )
 
     avg_return = evaluate_policy(
         env_id=args.env_id,

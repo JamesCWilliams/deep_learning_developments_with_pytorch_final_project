@@ -50,6 +50,15 @@ class Population:
         scored = self.topk(1)
         return scored[0] if scored else None
 
+    def best_by_raw_fitness(self):
+        """Return the individual with the highest unweighted fitness."""
+
+        scored = [ind for ind in self.individuals if ind.raw_fitness is not None]
+        if not scored:
+            return self.best()
+        scored.sort(key=lambda ind: ind.raw_fitness, reverse=True)
+        return scored[0]
+
     def genomes(self):
         for ind in self.individuals:
             yield ind.genome
@@ -71,6 +80,10 @@ class Population:
                 ind.metadata.update(meta)
 
     def to_policy_state_dict(self, genome):
+        policy = self.to_policy(genome)
+        return {k: v.cpu() for k, v in policy.state_dict().items()}
+
+    def to_policy(self, genome):
         policy = MLPActor(
             obs_dim=self.template_policy.obs_dim,
             act_dim=self.template_policy.act_dim,
@@ -82,7 +95,7 @@ class Population:
             device=str(next(self.template_policy.parameters()).device),
         )
         policy.set_parameters_flat(genome)
-        return {k: v.cpu() for k, v in policy.state_dict().items()}
+        return policy
 
 
 def _default_initializer(policy, rng):

@@ -3,6 +3,7 @@ from time import perf_counter
 
 import gymnasium as gym
 import numpy as np
+import torch
 import torch.nn as nn
 
 from models import MLPActor
@@ -70,6 +71,8 @@ class GeneticAlgorithmConfig:
         novelty_method="nearest_neighbors",
         novelty_weight=0.5,
         novelty_neighbors=5,
+        flavor="ppo",
+        best_actor_path=None,
     ):
         self.env_id = env_id
         self.population_size = population_size
@@ -95,6 +98,8 @@ class GeneticAlgorithmConfig:
         self.novelty_method = novelty_method
         self.novelty_weight = novelty_weight
         self.novelty_neighbors = novelty_neighbors
+        self.flavor = flavor
+        self.best_actor_path = best_actor_path
 
 
 class GeneticAlgorithmTrainer:
@@ -115,10 +120,16 @@ class GeneticAlgorithmTrainer:
             self.crossover_fn = crossover_fn
         self.initializer = initializer
 
-        env = gym.make(config.env_id)
-        hidden_sizes = tuple(config.policy_hidden_sizes) if config.policy_hidden_sizes else (64, 64)
+        self.flavor = str(config.flavor).lower()
+        hidden_sizes, activation = self._architecture_from_flavor(self.flavor)
+        hidden_sizes = tuple(hidden_sizes)
+        self.config.policy_hidden_sizes = hidden_sizes
+        self.config.policy_activation = activation
+        self.best_actor_path = (
+            config.best_actor_path or f"run_{self.flavor}.pt"
+        )
 
-        activation = config.policy_activation
+        env = gym.make(config.env_id)
         if config.policy_final_init_std is None:
             final_init_std = 0.01
         else:
@@ -189,6 +200,14 @@ class GeneticAlgorithmTrainer:
         raise ValueError(
             f"Unsupported crossover_type '{crossover_type}'. Available options are 'uniform', 'index', and 'blend'."
         )
+
+    def _architecture_from_flavor(self, flavor):
+        flavor = flavor.lower()
+        if flavor == "ppo":
+            return (64, 64), nn.Tanh
+        if flavor in {"sac", "td3"}:
+            return (256, 256), nn.ReLU
+        raise ValueError("Unsupported flavor; choose from 'ppo', 'sac', or 'td3'.")
 
     def _sample_mutation_sigma(self):
         variance = getattr(self.config, "mutation_sigma_variance", None)
@@ -361,16 +380,117 @@ class GeneticAlgorithmTrainer:
             progress_bar.close()
         return self.population
 
-    def export_best(self, output_path: str):
-        """
-        Save the best genome to ``.npz`` and return a state_dict for PyTorch fine-tuning.
+    @staticmethod
+    def _validate_linear_shape(layer, expected_out, expected_in, name):
+        if tuple(layer.weight.shape) != (expected_out, expected_in):
+            raise ValueError(
+                f"Unexpected shape for {name} weight: {tuple(layer.weight.shape)}; expected {(expected_out, expected_in)}"
+            )
+        if tuple(layer.bias.shape) != (expected_out,):
+            raise ValueError(
+                f"Unexpected shape for {name} bias: {tuple(layer.bias.shape)}; expected {(expected_out,)}"
+            )
 
-        The returned tuple mirrors the on-disk artifact (``output_path``) and the in-memory
-        weights that can be used with :func:`torch.save`.
-        """
-        best = self.population.best()
+    def _format_ppo_actor(self, policy):
+        linears = [m for m in policy.actor_mean if isinstance(m, nn.Linear)]
+        if len(linears) < 3:
+            raise ValueError("Expected at least three Linear layers in PPO policy.")
+
+        hidden1, hidden2 = self.config.policy_hidden_sizes
+        obs_dim = policy.obs_dim
+        act_dim = policy.act_dim
+
+        self._validate_linear_shape(linears[0], hidden1, obs_dim, "PPO fc1")
+        self._validate_linear_shape(linears[1], hidden2, hidden1, "PPO fc2")
+        self._validate_linear_shape(linears[2], act_dim, hidden2, "PPO output")
+
+        payload = {
+            "algo": "ppo",
+            "hidden_layers": [
+                {
+                    "weight": linears[0].weight.detach().clone().cpu(),
+                    "bias": linears[0].bias.detach().clone().cpu(),
+                },
+                {
+                    "weight": linears[1].weight.detach().clone().cpu(),
+                    "bias": linears[1].bias.detach().clone().cpu(),
+                },
+                {
+                    "weight": linears[2].weight.detach().clone().cpu(),
+                    "bias": linears[2].bias.detach().clone().cpu(),
+                },
+            ],
+            "meta": {
+                "obs_dim": obs_dim,
+                "act_dim": act_dim,
+                "hidden_sizes": list(self.config.policy_hidden_sizes),
+                "activation": "Tanh",
+            },
+        }
+        return payload
+
+    def _format_sac_actor(self, policy):
+        linears = [m for m in policy.actor_mean if isinstance(m, nn.Linear)]
+        if len(linears) < 3:
+            raise ValueError("Expected at least three Linear layers in SAC policy.")
+
+        hidden1, hidden2 = self.config.policy_hidden_sizes
+        obs_dim = policy.obs_dim
+        act_dim = policy.act_dim
+
+        self._validate_linear_shape(linears[0], hidden1, obs_dim, "SAC fc1")
+        self._validate_linear_shape(linears[1], hidden2, hidden1, "SAC fc2")
+        self._validate_linear_shape(linears[2], act_dim, hidden2, "SAC fc_mean")
+
+        return {
+            "fc1.weight": linears[0].weight.detach().clone().cpu(),
+            "fc1.bias": linears[0].bias.detach().clone().cpu(),
+            "fc2.weight": linears[1].weight.detach().clone().cpu(),
+            "fc2.bias": linears[1].bias.detach().clone().cpu(),
+            "fc_mean.weight": linears[2].weight.detach().clone().cpu(),
+            "fc_mean.bias": linears[2].bias.detach().clone().cpu(),
+        }
+
+    def _format_td3_actor(self, policy):
+        linears = [m for m in policy.actor_mean if isinstance(m, nn.Linear)]
+        if len(linears) < 3:
+            raise ValueError("Expected at least three Linear layers in TD3 policy.")
+
+        hidden1, hidden2 = self.config.policy_hidden_sizes
+        obs_dim = policy.obs_dim
+        act_dim = policy.act_dim
+
+        self._validate_linear_shape(linears[0], hidden1, obs_dim, "TD3 fc1")
+        self._validate_linear_shape(linears[1], hidden2, hidden1, "TD3 fc2")
+        self._validate_linear_shape(linears[2], act_dim, hidden2, "TD3 fc_mu")
+
+        return {
+            "fc1.weight": linears[0].weight.detach().clone().cpu(),
+            "fc1.bias": linears[0].bias.detach().clone().cpu(),
+            "fc2.weight": linears[1].weight.detach().clone().cpu(),
+            "fc2.bias": linears[1].bias.detach().clone().cpu(),
+            "fc_mu.weight": linears[2].weight.detach().clone().cpu(),
+            "fc_mu.bias": linears[2].bias.detach().clone().cpu(),
+        }
+
+    def save_best_actor(self, output_path=None, flavor=None):
+        best = self.population.best_by_raw_fitness()
         if best is None:
             raise RuntimeError("Population has not been evaluated yet.")
-        np.savez(output_path, genome=best.genome, fitness=best.fitness)
-        state_dict = self.population.to_policy_state_dict(best.genome)
-        return output_path, state_dict
+
+        flavor_to_use = (flavor or self.flavor).lower()
+        output_path = output_path or self.best_actor_path or f"run_{flavor_to_use}.pt"
+
+        policy = self.population.to_policy(best.genome)
+
+        if flavor_to_use == "ppo":
+            payload = self._format_ppo_actor(policy)
+        elif flavor_to_use == "sac":
+            payload = self._format_sac_actor(policy)
+        elif flavor_to_use == "td3":
+            payload = self._format_td3_actor(policy)
+        else:
+            raise ValueError("Unsupported flavor; choose from 'ppo', 'sac', or 'td3'.")
+
+        torch.save(payload, output_path)
+        return output_path
