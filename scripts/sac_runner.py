@@ -15,9 +15,11 @@ from torch.utils.tensorboard import SummaryWriter
 
 from cleanrl_utils.buffers import ReplayBuffer
 import cleanrl.sac_continuous_action as sac_mod
+import wandb  # only used if tracking is enabled
 
 
-# ---- Loader: SAC actor weights from GA (fc1/fc2/fc_mean), ReLU activations ----
+# ---- Loader: SAC actor weights from GA (fc1/fc2/fc_mean) ----
+
 
 def load_sac_actor_from_file(actor: nn.Module, path: str):
     """
@@ -53,7 +55,8 @@ def load_sac_actor_from_file(actor: nn.Module, path: str):
         else:
             print(
                 f"[SAC] Skipping key {k}: not found or shape mismatch "
-                f"(model: {model_sd.get(k, None) and tuple(model_sd[k].shape)}, file: {tuple(v.shape)})"
+                f"(model: {model_sd.get(k, None) and tuple(model_sd[k].shape)}, "
+                f"file: {tuple(v.shape)})"
             )
 
     model_sd.update(matched)
@@ -63,40 +66,151 @@ def load_sac_actor_from_file(actor: nn.Module, path: str):
     return {"matched_keys": sorted(matched.keys())}
 
 
+def save_checkpoint(path: str, actor: nn.Module, qf1: nn.Module, qf2: nn.Module, global_step: int):
+    """Save a SAC checkpoint with actor + Q networks and step."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    torch.save(
+        {
+            "actor": actor.state_dict(),
+            "qf1": qf1.state_dict(),
+            "qf2": qf2.state_dict(),
+            "global_step": global_step,
+        },
+        path,
+    )
+    print(f"[SAC] Saved checkpoint to {path}")
+
+
+def log_model_artifact(
+    path: str,
+    run,          # wandb.Run or None
+    run_name: str,
+    env_id: str,
+    seed: int,
+    step,         # int or None
+):
+    """
+    Log a model file as a W&B artifact if tracking is enabled.
+
+    step: training step, or None for "final"
+    """
+    if run is None:
+        return
+
+    artifact_name = f"{run_name}-final" if step is None else f"{run_name}-step{step}"
+    artifact = wandb.Artifact(
+        name=artifact_name,
+        type="model",
+        metadata={
+            "env_id": env_id,
+            "seed": seed,
+            "step": step,
+        },
+    )
+    artifact.add_file(path)
+    run.log_artifact(artifact)
+    print(f"[W&B] Logged artifact {artifact_name} from {path}")
+
+
+def evaluate_sac_policy(
+    actor: nn.Module,
+    env_id: str,
+    device: torch.device,
+    episodes: int = 5,
+    seed: int = 0,
+):
+    """
+    Simple evaluation loop for SAC:
+    - uses current actor policy
+    - no learning, just rollout
+    """
+    def make_single_env():
+        return sac_mod.make_env(env_id, seed, 0, False, "eval")
+
+    env = gym.vector.SyncVectorEnv([make_single_env()])
+    returns = []
+
+    for ep in range(episodes):
+        obs, _ = env.reset(seed=seed + ep)
+        done = False
+        ep_return = 0.0
+        while not done:
+            with torch.no_grad():
+                action, _, _ = actor.get_action(torch.as_tensor(obs, device=device))
+                action = action.cpu().numpy()
+            obs, reward, terminations, truncations, infos = env.step(action)
+            done = bool(terminations[0] or truncations[0])
+            ep_return += float(reward[0])
+        returns.append(ep_return)
+
+    env.close()
+    return returns
+
+
 def main():
     # ---- Pre-parse our extra flags ----
-    parser = argparse.ArgumentParser(add_help=False)
-    parser.add_argument(
+    pre_parser = argparse.ArgumentParser(add_help=False)
+    pre_parser.add_argument(
         "--actor-init-file",
         type=str,
         default=None,
         help="Optional SAC actor state-dict file (fc1/fc2/fc_mean).",
     )
-    parser.add_argument(
+    pre_parser.add_argument(
         "--cuda",
         type=str,
         default=None,
         help="Set to False to force CPU even if CUDA is available.",
     )
-    extra, remaining_argv = parser.parse_known_args()
-    actor_init_file = extra.actor_init_file
-    cuda_override = extra.cuda
+    pre_parser.add_argument(
+        "--run-dir",
+        type=str,
+        default=None,
+        help="Directory to save logs/checkpoints. Defaults to runs/{run_name}.",
+    )
+    pre_parser.add_argument(
+        "--data-dir",
+        type=str,
+        default=None,
+        help="Directory to save data outputs. Defaults to data/{run_name}.",
+    )
 
+    extra_args, remaining_argv = pre_parser.parse_known_args()
+    actor_init_file = extra_args.actor_init_file
+    cuda_override = extra_args.cuda
+    run_dir_override = extra_args.run_dir
+    data_dir_override = extra_args.data_dir
+
+    # ---- CleanRL args via tyro ----
     Args = sac_mod.Args
     args = tyro.cli(Args, args=remaining_argv)
 
-    # apply CUDA override if passed
+    # CUDA override
     if cuda_override is not None:
         if isinstance(cuda_override, str):
             cuda_override = cuda_override.lower() in ("1", "true", "yes", "on")
         args.cuda = bool(cuda_override)
 
-    # ---- From here down, mostly verbatim from cleanrl.sac_continuous_action ----
+    # Run naming & dirs
     run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
-    if args.track:
-        import wandb
 
-        wandb.init(
+    if run_dir_override is not None:
+        run_dir = run_dir_override
+    else:
+        run_dir = os.path.join("runs", run_name)
+
+    if data_dir_override is not None:
+        data_dir = data_dir_override
+    else:
+        data_dir = os.path.join("data", run_name)
+
+    os.makedirs(run_dir, exist_ok=True)
+    os.makedirs(data_dir, exist_ok=True)
+
+    # W&B
+    run = None
+    if args.track:
+        run = wandb.init(
             project=args.wandb_project_name,
             entity=args.wandb_entity,
             sync_tensorboard=True,
@@ -104,14 +218,16 @@ def main():
             name=run_name,
             save_code=True,
         )
-    writer = SummaryWriter(f"runs/{run_name}")
+
+    # TensorBoard
+    writer = SummaryWriter(run_dir)
     writer.add_text(
         "hyperparameters",
         "|param|value|\n|-|-|\n%s"
         % ("\n".join([f"|{key}|{value}|" for key, value in vars(args).items()])),
     )
 
-    # seeding
+    # Seeding
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
@@ -119,7 +235,7 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() and args.cuda else "cpu")
 
-    # env setup
+    # Env setup
     envs = gym.vector.SyncVectorEnv(
         [
             sac_mod.make_env(args.env_id, args.seed + i, i, args.capture_video, run_name)
@@ -130,8 +246,7 @@ def main():
         envs.single_action_space, gym.spaces.Box
     ), "only continuous action space is supported"
 
-    max_action = float(envs.single_action_space.high[0])
-
+    # Networks & optimizers
     actor = sac_mod.Actor(envs).to(device)
     qf1 = sac_mod.SoftQNetwork(envs).to(device)
     qf2 = sac_mod.SoftQNetwork(envs).to(device)
@@ -142,11 +257,11 @@ def main():
     q_optimizer = optim.Adam(list(qf1.parameters()) + list(qf2.parameters()), lr=args.q_lr)
     actor_optimizer = optim.Adam(list(actor.parameters()), lr=args.policy_lr)
 
-    # ---- OUR HOOK: load GA actor weights if provided ----
+    # Pretrained actor
     if actor_init_file is not None:
         load_sac_actor_from_file(actor, actor_init_file)
 
-    # Automatic entropy tuning
+    # Entropy tuning
     if args.autotune:
         target_entropy = -torch.prod(
             torch.Tensor(envs.single_action_space.shape).to(device)
@@ -156,6 +271,8 @@ def main():
         a_optimizer = optim.Adam([log_alpha], lr=args.q_lr)
     else:
         alpha = args.alpha
+        log_alpha = None
+        a_optimizer = None
 
     envs.single_observation_space.dtype = np.float32
     rb = ReplayBuffer(
@@ -168,10 +285,17 @@ def main():
     )
     start_time = time.time()
 
-    # start the game
+    # Training loop
     obs, _ = envs.reset(seed=args.seed)
+
+    eval_interval = 10_000
+    last_eval_step = 0
+
+    ckpt_interval = 50_000
+    last_ckpt_step = 0
+
     for global_step in range(args.total_timesteps):
-        # action logic
+        # Action logic
         if global_step < args.learning_starts:
             actions = np.array(
                 [envs.single_action_space.sample() for _ in range(envs.num_envs)]
@@ -180,10 +304,10 @@ def main():
             actions, _, _ = actor.get_action(torch.Tensor(obs).to(device))
             actions = actions.detach().cpu().numpy()
 
-        # step
+        # Step
         next_obs, rewards, terminations, truncations, infos = envs.step(actions)
 
-        # episodic logs
+        # Episodic logs
         if "final_info" in infos:
             for info in infos["final_info"]:
                 if info is not None:
@@ -198,7 +322,7 @@ def main():
                     )
                     break
 
-        # replay buffer
+        # Replay buffer
         real_next_obs = next_obs.copy()
 
         final_obs = infos.get("final_observation", None)
@@ -211,7 +335,7 @@ def main():
 
         obs = next_obs
 
-        # training
+        # Training
         if global_step > args.learning_starts:
             data = rb.sample(args.batch_size)
             with torch.no_grad():
@@ -306,11 +430,85 @@ def main():
                         "losses/alpha_loss", alpha_loss.item(), global_step
                     )
 
+        # Periodic checkpoint
+        if global_step > 0 and (global_step - last_ckpt_step) >= ckpt_interval:
+            last_ckpt_step = global_step
+            ckpt_name = f"model_step{global_step}.pt"
+
+            ckpt_path_run = os.path.join(run_dir, ckpt_name)
+            save_checkpoint(ckpt_path_run, actor, qf1, qf2, global_step)
+
+            ckpt_path_data = os.path.join(data_dir, ckpt_name)
+            save_checkpoint(ckpt_path_data, actor, qf1, qf2, global_step)
+
+            log_model_artifact(
+                path=ckpt_path_run,
+                run=run,
+                run_name=run_name,
+                env_id=args.env_id,
+                seed=args.seed,
+                step=global_step,
+            )
+            if run is not None:
+                wandb.save(ckpt_path_run)
+
+        # Periodic eval
+        if global_step > 0 and (global_step - last_eval_step) >= eval_interval:
+            last_eval_step = global_step
+            eval_returns = evaluate_sac_policy(
+                actor, args.env_id, device, episodes=3, seed=args.seed
+            )
+            mean_eval = float(np.mean(eval_returns))
+            writer.add_scalar("eval/mean_return", mean_eval, global_step)
+            if run is not None:
+                wandb.log({"eval/mean_return": mean_eval})
+
     envs.close()
 
-    if args.track and args.capture_video:
+    # Final checkpoint
+    final_ckpt_name = "model_final.pt"
+
+    final_ckpt_run = os.path.join(run_dir, final_ckpt_name)
+    save_checkpoint(final_ckpt_run, actor, qf1, qf2, global_step=args.total_timesteps)
+
+    final_ckpt_data = os.path.join(data_dir, final_ckpt_name)
+    save_checkpoint(final_ckpt_data, actor, qf1, qf2, global_step=args.total_timesteps)
+
+    log_model_artifact(
+        path=final_ckpt_run,
+        run=run,
+        run_name=run_name,
+        env_id=args.env_id,
+        seed=args.seed,
+        step=None,
+    )
+    if run is not None:
+        wandb.save(final_ckpt_run)
+
+    # Final eval
+    eval_returns = evaluate_sac_policy(
+        actor, args.env_id, device, episodes=10, seed=args.seed
+    )
+    for idx, r in enumerate(eval_returns):
+        writer.add_scalar("eval/episodic_return", r, idx)
+
+    mean_eval_return = float(np.mean(eval_returns))
+    writer.add_scalar("eval/mean_return_final", mean_eval_return, args.total_timesteps)
+    if run is not None:
+        wandb.log({"eval/mean_return_final": mean_eval_return})
+
+    # Summary into data_dir
+    summary_path = os.path.join(data_dir, "summary.npz")
+    np.savez(
+        summary_path,
+        total_timesteps=args.total_timesteps,
+        seed=args.seed,
+        final_mean_eval_return=mean_eval_return,
+    )
+
+    # Video logging
+    if run is not None and args.capture_video:
         import glob
-        import wandb
 
         video_dir = f"videos/{run_name}"
         mp4s = glob.glob(os.path.join(video_dir, "*.mp4"))

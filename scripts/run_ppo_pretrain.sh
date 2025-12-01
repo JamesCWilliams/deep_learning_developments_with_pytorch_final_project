@@ -17,8 +17,21 @@ TIMESTEPS="${TIMESTEPS:-1000000}"
 NUM_ENVS="${NUM_ENVS:-1}"
 NUM_STEPS="${NUM_STEPS:-2048}"            # match CleanRL default
 CAPTURE_VIDEO="${CAPTURE_VIDEO:-0}"
-CUDA="${CUDA:-True}"                     # default CUDA
-EXP_NAME="${EXP_NAME:-ppo_preinit}"       # <--- NEW: allow override
+CUDA="${CUDA:-True}"                      # default CUDA
+EXP_NAME="${EXP_NAME:-ppo_preinit}"       # allow override
+
+# Build a run id & directories
+TIMESTAMP="$(date +'%Y%m%d_%H%M%S')"
+RUN_ID="${EXP_NAME}_${ENV_ID}_seed${SEED}_${TIMESTAMP}"
+
+RUN_DIR="runs/${RUN_ID}"
+DATA_DIR="data/${RUN_ID}"
+
+mkdir -p "${RUN_DIR}" "${DATA_DIR}"
+
+# optional: make W&B run name/id nice & deterministic
+export WANDB_RUN_ID="${RUN_ID}"
+export WANDB_RUN_NAME="${RUN_ID}"
 
 EXTRA_ARGS=()
 if [[ "${CAPTURE_VIDEO}" == "1" ]]; then
@@ -45,4 +58,6 @@ python scripts/ppo_runner.py \
   --wandb_project_name "${PROJECT}" \
   "${ENTITY_ARGS[@]}" \
   --actor-init-file "${ACTOR_INIT_FILE}" \
+  --run-dir "${RUN_DIR}" \
+  --data-dir "${DATA_DIR}" \
   "${EXTRA_ARGS[@]}"
