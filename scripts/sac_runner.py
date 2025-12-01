@@ -136,7 +136,9 @@ def evaluate_sac_policy(
         ep_return = 0.0
         while not done:
             with torch.no_grad():
-                action, _, _ = actor.get_action(torch.as_tensor(obs, device=device))
+                # IMPORTANT: cast to float32 so it matches model weights
+                obs_t = torch.as_tensor(obs, device=device, dtype=torch.float32)
+                action, _, _ = actor.get_action(obs_t)
                 action = action.cpu().numpy()
             obs, reward, terminations, truncations, infos = env.step(action)
             done = bool(terminations[0] or truncations[0])
@@ -145,6 +147,7 @@ def evaluate_sac_policy(
 
     env.close()
     return returns
+
 
 
 def main():
