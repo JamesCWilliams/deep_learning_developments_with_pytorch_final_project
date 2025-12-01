@@ -23,9 +23,9 @@ WEIGHTS_DIR="${3:?need WEIGHTS_DIR containing .pt files}"
 ALGO="$(echo "${ALGO}" | tr '[:upper:]' '[:lower:]')"
 
 case "${ALGO}" in
-  ppo) RUN_SCRIPT="run_ppo_with_weights.sh" ;;
-  sac) RUN_SCRIPT="run_sac_with_weights.sh" ;;
-  td3) RUN_SCRIPT="run_td3_with_weights.sh" ;;
+  ppo) RUN_SCRIPT="run_ppo_pretrain.sh" ;;
+  sac) RUN_SCRIPT="run_sac_pretrain.sh" ;;
+  td3) RUN_SCRIPT="run_td3_pretrain.sh" ;;
   *)
     echo "Unsupported ALGO '${ALGO}'. Use one of: ppo, sac, td3." >&2
     exit 1
