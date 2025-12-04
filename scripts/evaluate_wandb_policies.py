@@ -113,10 +113,9 @@ def load_ppo_agent_from_ckpt(ckpt_path, env_id, gamma, device):
 def evaluate_ppo_agent(agent, env_id, gamma, device, episodes=10, seed=0):
     """
     Runs PPO agent in eval mode and returns a list of dicts with per-episode metrics.
-    Metrics per episode:
-      - episodic_return
-      - episode_length
     """
+    max_steps = get_max_episode_steps(env_id)
+
     def make_single_env():
         return ppo_mod.make_env(env_id, 0, False, "eval", gamma)
 
@@ -139,10 +138,17 @@ def evaluate_ppo_agent(agent, env_id, gamma, device, episodes=10, seed=0):
             ep_return += float(reward[0])
             ep_len += 1
 
+        if max_steps is not None and max_steps > 0:
+            duration_rate = ep_len / max_steps
+        else:
+            duration_rate = np.nan
+
         results.append(
             {
                 "episodic_return": ep_return,
                 "episode_length": ep_len,
+                "max_episode_steps": max_steps,
+                "duration_rate": duration_rate,
             }
         )
 
@@ -183,6 +189,8 @@ def evaluate_sac_actor(actor, env_id, device, episodes=10, seed=0):
     """
     Runs SAC actor in eval mode and returns list of dicts with per-episode metrics.
     """
+    max_steps = get_max_episode_steps(env_id)
+
     def make_single_env():
         return sac_mod.make_env(env_id, seed, 0, False, "eval")
 
@@ -205,15 +213,33 @@ def evaluate_sac_actor(actor, env_id, device, episodes=10, seed=0):
             ep_return += float(reward[0])
             ep_len += 1
 
+        if max_steps is not None and max_steps > 0:
+            duration_rate = ep_len / max_steps
+        else:
+            duration_rate = np.nan
+
         results.append(
             {
                 "episodic_return": ep_return,
                 "episode_length": ep_len,
+                "max_episode_steps": max_steps,
+                "duration_rate": duration_rate,
             }
         )
 
     env.close()
     return results
+
+
+# ---------- get max episode steps for the environment ----------
+
+def get_max_episode_steps(env_id: str) -> int | None:
+    env = gym.make(env_id)
+    max_steps = getattr(env, "_max_episode_steps", None)
+    if max_steps is None and env.spec is not None:
+        max_steps = getattr(env.spec, "max_episode_steps", None)
+    env.close()
+    return max_steps
 
 
 # ---------- Main: iterate W&B runs, eval, write CSV ----------
@@ -254,7 +280,10 @@ def main():
         "episode_index",
         "episodic_return",
         "episode_length",
+        "max_episode_steps",
+        "duration_rate",
     ]
+
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
 
@@ -305,19 +334,21 @@ def main():
         for ep_idx, ep in enumerate(ep_results):
             writer.writerow(
                 {
-                    "project": args.project,
-                    "algo": args.algo,
-                    "run_id": run.id,
-                    "run_name": run.name,
-                    "env_id": env_id,
-                    "seed": seed,
-                    "exp_name": exp_name,
-                    "total_timesteps": total_timesteps,
-                    "episode_index": ep_idx,
-                    "episodic_return": ep["episodic_return"],
-                    "episode_length": ep["episode_length"],
-                }
-            )
+            "project": args.project,
+            "algo": args.algo,
+            "run_id": run.id,
+            "run_name": run.name,
+            "env_id": env_id,
+            "seed": seed,
+            "exp_name": exp_name,
+            "total_timesteps": total_timesteps,
+            "episode_index": ep_idx,
+            "episodic_return": ep["episodic_return"],
+            "episode_length": ep["episode_length"],
+            "max_episode_steps": ep["max_episode_steps"],
+            "duration_rate": ep["duration_rate"],
+        }
+    )
 
         evaluated += 1
         if args.max_runs is not None and evaluated >= args.max_runs:
