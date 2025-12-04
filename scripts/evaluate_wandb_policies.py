@@ -205,7 +205,7 @@ def evaluate_sac_actor(actor, env_id, device, episodes=10, seed=0):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--entity", required=True, help="wandb entity/user")
+    parser.add_argument("--entity", default="ga-rl-final-project", help="wandb entity/user")
     parser.add_argument("--project", required=True, help="wandb project (ONE env+config)")
     parser.add_argument("--algo", required=True, choices=["ppo", "sac"])
     parser.add_argument("--output-csv", required=True)
