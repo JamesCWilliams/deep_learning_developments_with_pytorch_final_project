@@ -210,7 +210,7 @@ def main():
     parser.add_argument("--algo", required=True, choices=["ppo", "sac"])
     parser.add_argument("--output-csv", required=True)
     parser.add_argument("--episodes", type=int, default=100)
-    parser.add_argument("--device", type=str, default="cuda", help="'cuda' or 'cpu'")
+    parser.add_argument("--device", type=str, default="cpu", help="'cuda' or 'cpu'")
     parser.add_argument("--env-id-filter", type=str, default=None,
                         help="Optional env_id filter (usually unnecessary if project is env-specific)")
     parser.add_argument("--max-runs", type=int, default=None,
