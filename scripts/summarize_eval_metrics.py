@@ -7,47 +7,27 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def compute_group_metrics(df: pd.DataFrame):
+def compute_metrics_for_config(df: pd.DataFrame):
     """
-    df: all episodes for a single (project, algo, env_id, ...) group.
-    Returns a dict with intra/inter metrics and group size.
-
-    Intra-agent:
-      - per-run reward variance over episodes, then mean±std across runs
-      - per-run mean duration_rate, then mean±std across runs
-
-    Inter-agent:
-      - variance/std of run-level mean returns
-      - variance/std of run-level mean duration rates
+    df: episodes for a single config *after* alignment (only common seeds, aligned episode counts).
+    Returns dict of intra- and inter-agent metrics + group_size (number of seeds).
     """
-    # ensure duration_rate exists
-    if "duration_rate" not in df.columns:
-        if "max_episode_steps" in df.columns:
-            df = df.copy()
-            df["duration_rate"] = df["episode_length"] / df["max_episode_steps"]
-        else:
-            raise ValueError(
-                "duration_rate not in CSV and max_episode_steps missing; "
-                "rerun evaluation with duration_rate logging."
-            )
-
-    run_groups = df.groupby("run_id")
-
     per_run = []
-    for run_id, g in run_groups:
+    for (seed, run_id), g in df.groupby(["seed", "run_id"]):
         ep_returns = g["episodic_return"].to_numpy(dtype=float)
+        dur_rates = g["duration_rate"].to_numpy(dtype=float)
+
         if len(ep_returns) > 1:
             intra_reward_var = np.var(ep_returns, ddof=1)
         else:
-            intra_reward_var = np.nan  # not enough episodes
+            intra_reward_var = np.nan
 
         reward_mean = float(np.mean(ep_returns))
-
-        dur_rates = g["duration_rate"].to_numpy(dtype=float)
         duration_rate_mean = float(np.mean(dur_rates))
 
         per_run.append(
             {
+                "seed": seed,
                 "run_id": run_id,
                 "intra_reward_var": intra_reward_var,
                 "reward_mean": reward_mean,
@@ -56,162 +36,204 @@ def compute_group_metrics(df: pd.DataFrame):
         )
 
     per_run_df = pd.DataFrame(per_run)
-
-    # Intra-agent metrics (across runs)
-    intra_reward_var_mean = per_run_df["intra_reward_var"].mean()
-    intra_reward_var_std = per_run_df["intra_reward_var"].std(ddof=1)
-
-    intra_duration_rate_mean_mean = per_run_df["duration_rate_mean"].mean()
-    intra_duration_rate_mean_std = per_run_df["duration_rate_mean"].std(ddof=1)
-
-    # Inter-agent metrics (variance/std over run-level means)
-    inter_reward_var = per_run_df["reward_mean"].var(ddof=1)
-    inter_reward_std = per_run_df["reward_mean"].std(ddof=1)
-
-    inter_duration_rate_var = per_run_df["duration_rate_mean"].var(ddof=1)
-    inter_duration_rate_std = per_run_df["duration_rate_mean"].std(ddof=1)
-
     group_size = len(per_run_df)
+
+    # intra-agent stats (across runs)
+    reward_intra_var_mean = per_run_df["intra_reward_var"].mean()
+    reward_intra_var_std = per_run_df["intra_reward_var"].std(ddof=1)
+
+    duration_intra_mean_mean = per_run_df["duration_rate_mean"].mean()
+    duration_intra_mean_std = per_run_df["duration_rate_mean"].std(ddof=1)
+
+    # inter-agent stats: mean±std over run-level means
+    reward_inter_mean = per_run_df["reward_mean"].mean()
+    reward_inter_std = per_run_df["reward_mean"].std(ddof=1)
+
+    duration_inter_mean = per_run_df["duration_rate_mean"].mean()
+    duration_inter_std = per_run_df["duration_rate_mean"].std(ddof=1)
 
     return {
         "group_size": group_size,
-        # intra reward variance (per-run variance, then averaged)
-        "intra_reward_var_mean": intra_reward_var_mean,
-        "intra_reward_var_std": intra_reward_var_std,
-        # intra duration rate (per-run mean duration rate, then averaged)
-        "intra_duration_rate_mean_mean": intra_duration_rate_mean_mean,
-        "intra_duration_rate_mean_std": intra_duration_rate_mean_std,
-        # inter reward stats
-        "inter_reward_var": inter_reward_var,
-        "inter_reward_std": inter_reward_std,
-        # inter duration rate stats
-        "inter_duration_rate_var": inter_duration_rate_var,
-        "inter_duration_rate_std": inter_duration_rate_std,
+        "reward_intra_var_mean": reward_intra_var_mean,
+        "reward_intra_var_std": reward_intra_var_std,
+        "duration_intra_mean_mean": duration_intra_mean_mean,
+        "duration_intra_mean_std": duration_intra_mean_std,
+        "reward_inter_mean": reward_inter_mean,
+        "reward_inter_std": reward_inter_std,
+        "duration_inter_mean": duration_inter_mean,
+        "duration_inter_std": duration_inter_std,
     }
 
 
-def make_intra_plots(summary_df: pd.DataFrame, out_dir: str):
+def align_three_configs(dfs, labels):
+    """
+    dfs: list of 3 dataframes (one per config)
+    labels: corresponding config labels (strings)
+
+    Returns:
+      - aligned_df: a single dataframe with 'config' column, only common seeds,
+                    and episodes truncated per seed to min episode count across configs.
+      - algo, env_id: common algo/env_id used (for sanity).
+    """
+    # attach config labels
+    for df, label in zip(dfs, labels):
+        df["config"] = label
+
+    # sanity: same algo & env_id across all
+    algos = {a for df in dfs for a in df["algo"].unique()}
+    envs = {e for df in dfs for e in df["env_id"].unique()}
+    if len(algos) != 1 or len(envs) != 1:
+        raise ValueError(f"Expected same algo/env across all CSVs, got algos={algos}, envs={envs}")
+    algo = next(iter(algos))
+    env_id = next(iter(envs))
+
+    # concat everything
+    all_df = pd.concat(dfs, ignore_index=True)
+
+    # ensure duration_rate exists
+    if "duration_rate" not in all_df.columns:
+        if "max_episode_steps" in all_df.columns:
+            all_df["duration_rate"] = all_df["episode_length"] / all_df["max_episode_steps"]
+        else:
+            raise ValueError("CSV missing duration_rate and max_episode_steps; rerun evaluation.")
+
+    # 1) align seeds: keep only seeds that appear in all configs
+    seeds_per_config = {
+        label: set(df["seed"].unique()) for df, label in zip(dfs, labels)
+    }
+    common_seeds = set.intersection(*seeds_per_config.values())
+    all_df = all_df[all_df["seed"].isin(common_seeds)].copy()
+
+    if all_df.empty:
+        raise ValueError("No common seeds between configs after seed alignment.")
+
+    # 2) align episodes: for each seed, take min #episodes across configs
+    eps_counts = (
+        all_df.groupby(["config", "seed"])["episode_index"]
+        .nunique()
+        .reset_index(name="n_episodes")
+    )
+
+    min_eps = (
+        eps_counts.groupby("seed")["n_episodes"]
+        .min()
+        .reset_index(name="min_n_episodes")
+    )
+
+    all_df = all_df.merge(min_eps, on="seed", how="left")
+    all_df = all_df[all_df["episode_index"] < all_df["min_n_episodes"]].copy()
+
+    return all_df, algo, env_id
+
+
+def make_intra_plots(summary_df: pd.DataFrame, algo: str, env_id: str, out_dir: str):
     os.makedirs(out_dir, exist_ok=True)
 
-    # label = env + project for x-axis; tweak if you want exp_name in there too
-    def label_row(row):
-        return f"{row['env_id']}\n{row['project']}"
+    configs = summary_df["config"].tolist()
+    x = np.arange(len(configs))
 
-    summary_df = summary_df.copy()
-    summary_df["group_label"] = summary_df.apply(label_row, axis=1)
-
-    x = np.arange(len(summary_df["group_label"]))
-
-    # 1) Intra-agent reward variance mean ± std
+    # 1) Intra-agent reward variance
     plt.figure()
     plt.errorbar(
         x,
-        summary_df["intra_reward_var_mean"],
-        yerr=summary_df["intra_reward_var_std"],
+        summary_df["reward_intra_var_mean"],
+        yerr=summary_df["reward_intra_var_std"],
         fmt="o",
     )
-    plt.xticks(x, summary_df["group_label"], rotation=45, ha="right")
-    plt.ylabel("Intra-agent reward variance\n(mean ± std across runs)")
+    plt.xticks(x, configs)
+    plt.xlabel("Config")
+    plt.ylabel("Intra-agent reward variance\n(mean ± std across seeds)")
+    plt.title(f"{algo} on {env_id} — Intra-agent reward variance")
     plt.tight_layout()
-    plt.savefig(os.path.join(out_dir, "intra_reward_variance.png"))
+    plt.savefig(os.path.join(out_dir, f"{algo}_{env_id}_intra_reward_variance.png"))
     plt.close()
 
-    # 2) Intra-agent duration rate mean ± std
+    # 2) Intra-agent duration rate
     plt.figure()
     plt.errorbar(
         x,
-        summary_df["intra_duration_rate_mean_mean"],
-        yerr=summary_df["intra_duration_rate_mean_std"],
+        summary_df["duration_intra_mean_mean"],
+        yerr=summary_df["duration_intra_mean_std"],
         fmt="o",
     )
-    plt.xticks(x, summary_df["group_label"], rotation=45, ha="right")
-    plt.ylabel("Intra-agent mean duration rate\n(mean ± std across runs)")
+    plt.xticks(x, configs)
+    plt.xlabel("Config")
+    plt.ylabel("Intra-agent mean duration rate\n(mean ± std across seeds)")
+    plt.title(f"{algo} on {env_id} — Intra-agent duration rate")
     plt.tight_layout()
-    plt.savefig(os.path.join(out_dir, "intra_duration_rate.png"))
+    plt.savefig(os.path.join(out_dir, f"{algo}_{env_id}_intra_duration_rate.png"))
     plt.close()
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--input-csv",
+        "--csvs",
+        nargs=3,
         required=True,
-        help="Path to CSV produced by evaluate_wandb_policies.py",
+        help="Three CSV files to compare (same algo+env, different configs).",
+    )
+    parser.add_argument(
+        "--labels",
+        nargs=3,
+        required=True,
+        help="Three labels for the configs (e.g. baseline ga1 ga2).",
     )
     parser.add_argument(
         "--output-summary-csv",
         required=True,
-        help="Where to write group summary metrics CSV",
+        help="Where to write the summary metrics CSV (one row per config).",
     )
     parser.add_argument(
         "--plot-dir",
         required=True,
-        help="Directory (created if needed) for intra-agent plots",
-    )
-    parser.add_argument(
-        "--group-cols",
-        type=str,
-        default="project,algo,env_id",
-        help="Comma-separated columns defining a group "
-             "(default: project,algo,env_id)",
+        help="Directory for intra-agent comparison plots.",
     )
     args = parser.parse_args()
 
-    group_cols = [c.strip() for c in args.group_cols.split(",") if c.strip()]
+    dfs = [pd.read_csv(p) for p in args.csvs]
 
-    df = pd.read_csv(args.input_csv)
+    # basic sanity checks
+    for df in dfs:
+        for c in ["algo", "env_id", "seed", "run_id", "episode_index", "episodic_return", "episode_length"]:
+            if c not in df.columns:
+                raise ValueError(f"Required column '{c}' missing in one of the CSVs.")
 
-    # ensure required columns
-    required_cols = {"run_id", "episodic_return", "episode_length"}
-    missing = required_cols - set(df.columns)
-    if missing:
-        raise ValueError(f"Missing required columns in CSV: {missing}")
-
-    if "duration_rate" not in df.columns:
-        if "max_episode_steps" in df.columns:
-            df["duration_rate"] = df["episode_length"] / df["max_episode_steps"]
-        else:
-            raise ValueError(
-                "CSV has no duration_rate nor max_episode_steps. "
-                "Rerun evaluation with duration_rate logging."
-            )
+    aligned_df, algo, env_id = align_three_configs(dfs, args.labels)
 
     summary_rows = []
-
-    for group_vals, g in df.groupby(group_cols):
-        if not isinstance(group_vals, tuple):
-            group_vals = (group_vals,)
-        group_key = dict(zip(group_cols, group_vals))
-
-        metrics = compute_group_metrics(g)
-        row = {**group_key, **metrics}
-        summary_rows.append(row)
+    for config_label in args.labels:
+        cfg_df = aligned_df[aligned_df["config"] == config_label].copy()
+        metrics = compute_metrics_for_config(cfg_df)
+        metrics["config"] = config_label
+        metrics["algo"] = algo
+        metrics["env_id"] = env_id
+        summary_rows.append(metrics)
 
     summary_df = pd.DataFrame(summary_rows)
 
-    # save summary CSV
     os.makedirs(os.path.dirname(args.output_summary_csv) or ".", exist_ok=True)
     summary_df.to_csv(args.output_summary_csv, index=False)
 
-    # plots
-    make_intra_plots(summary_df, args.plot_dir)
+    make_intra_plots(summary_df, algo, env_id, args.plot_dir)
 
-    print(f"[DONE] Wrote summary to {args.output_summary_csv}")
-    print(f"[DONE] Saved intra-agent plots to {args.plot_dir}")
+    print(f"[DONE] Summary written to {args.output_summary_csv}")
+    print(f"[DONE] Plots written to {args.plot_dir}")
     print()
-    print("Inter-agent metrics (with group sizes):")
-    cols_to_show = [
-        c for c in [
-            "project", "algo", "env_id",
-            "group_size",
-            "inter_reward_var", "inter_reward_std",
-            "inter_duration_rate_var", "inter_duration_rate_std",
-        ]
-        if c in summary_df.columns
-    ]
-    print(summary_df[cols_to_show].to_string(index=False))
+    print("Inter-agent metrics (means ± std across seeds):")
+    print(
+        summary_df[
+            [
+                "config",
+                "group_size",
+                "reward_inter_mean",
+                "reward_inter_std",
+                "duration_inter_mean",
+                "duration_inter_std",
+            ]
+        ].to_string(index=False)
+    )
 
 
 if __name__ == "__main__":
     main()
-    

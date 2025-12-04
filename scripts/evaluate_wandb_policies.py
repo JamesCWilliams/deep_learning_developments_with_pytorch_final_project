@@ -13,17 +13,27 @@ import cleanrl.ppo_continuous_action as ppo_mod
 import cleanrl.sac_continuous_action as sac_mod
 
 
-# ---------- Helpers to find/download final model artifact ----------
+# ---------- Helper: max episode steps ----------
+
+def get_max_episode_steps(env_id: str):
+    env = gym.make(env_id)
+    max_steps = getattr(env, "_max_episode_steps", None)
+    if max_steps is None and env.spec is not None:
+        max_steps = getattr(env.spec, "max_episode_steps", None)
+    env.close()
+    return max_steps
+
+
+# ---------- Artifact helpers ----------
 
 def find_final_model_artifact(run, artifact_file="model_final.pt"):
     """
     Given a wandb.Run, find the 'final' model artifact containing artifact_file.
-    Assumes your training code logged artifacts with type="model" and that
-    the final artifact has model_final.pt inside (as in ppo_runner/sac_runner).
+    Assumes training logged a final artifact with step=None and that it contains model_final.pt.
     """
     final_candidate = None
 
-    # First pass: look for artifacts with metadata.step is None (your '-final')
+    # First pass: look for artifacts with metadata.step is None = "final"
     for art in run.logged_artifacts():
         if art.type != "model":
             continue
@@ -32,11 +42,10 @@ def find_final_model_artifact(run, artifact_file="model_final.pt"):
         except Exception:
             step = None
         if step is None:
-            # Likely the final artifact
             final_candidate = art
             break
 
-    # Fallback: just pick the last model artifact that contains model_final.pt
+    # Fallback: any model artifact containing artifact_file
     if final_candidate is None:
         for art in run.logged_artifacts():
             if art.type != "model":
@@ -55,28 +64,15 @@ def find_final_model_artifact(run, artifact_file="model_final.pt"):
     if final_candidate is None:
         return None
 
-    # Confirm it contains the file we want
-    has_file = False
-    for f in final_candidate.files():
-        if f.name.endswith(artifact_file):
-            has_file = True
-            break
-    if not has_file:
-        return None
-
-    return final_candidate
+    has_file = any(f.name.endswith(artifact_file) for f in final_candidate.files())
+    return final_candidate if has_file else None
 
 
 def download_ckpt_from_artifact(artifact, artifact_file="model_final.pt"):
-    """
-    Download the artifact to a temp dir and return absolute path
-    to artifact_file inside it.
-    """
     tmpdir = tempfile.mkdtemp(prefix="wandb_eval_")
     local_dir = artifact.download(root=tmpdir)
     ckpt_path = os.path.join(local_dir, artifact_file)
     if not os.path.exists(ckpt_path):
-        # Try to search for any .pt in this directory as a fallback
         for root, _, files in os.walk(local_dir):
             for fn in files:
                 if fn.endswith(".pt"):
@@ -85,21 +81,13 @@ def download_ckpt_from_artifact(artifact, artifact_file="model_final.pt"):
     return ckpt_path
 
 
-# ---------- PPO loading + evaluation ----------
+# ---------- PPO loading + eval ----------
 
 def load_ppo_agent_from_ckpt(ckpt_path, env_id, gamma, device):
-    """
-    Builds a CleanRL PPO Agent for env_id, loads weights from checkpoint, returns agent.
-    Checkpoint format (from ppo_runner.save_checkpoint):
-      {"agent": agent.state_dict(), "global_step": int}
-    or directly a state_dict.
-    """
-    # Dummy env to define obs/act shapes (same pattern as training)
     def make_single_env():
         return ppo_mod.make_env(env_id, 0, False, "eval", gamma)
 
     envs = gym.vector.SyncVectorEnv([make_single_env()])
-
     agent = ppo_mod.Agent(envs).to(device)
 
     ckpt = torch.load(ckpt_path, map_location=device)
@@ -111,9 +99,6 @@ def load_ppo_agent_from_ckpt(ckpt_path, env_id, gamma, device):
 
 
 def evaluate_ppo_agent(agent, env_id, gamma, device, episodes=10, seed=0):
-    """
-    Runs PPO agent in eval mode and returns a list of dicts with per-episode metrics.
-    """
     max_steps = get_max_episode_steps(env_id)
 
     def make_single_env():
@@ -156,25 +141,13 @@ def evaluate_ppo_agent(agent, env_id, gamma, device, episodes=10, seed=0):
     return results
 
 
-# ---------- SAC loading + evaluation ----------
+# ---------- SAC loading + eval ----------
 
 def load_sac_actor_from_ckpt(ckpt_path, env_id, device):
-    """
-    Builds a CleanRL SAC Actor for env_id, loads actor weights from checkpoint, returns actor.
-    Checkpoint format (from sac_runner.save_checkpoint):
-      {
-        "actor": actor.state_dict(),
-        "qf1": ...,
-        "qf2": ...,
-        "global_step": ...
-      }
-    """
     def make_single_env():
-        # sac_mod.make_env(env_id, seed, idx, capture_video, run_name)
         return sac_mod.make_env(env_id, 0, 0, False, "eval")
 
     envs = gym.vector.SyncVectorEnv([make_single_env()])
-
     actor = sac_mod.Actor(envs).to(device)
 
     ckpt = torch.load(ckpt_path, map_location=device)
@@ -186,9 +159,6 @@ def load_sac_actor_from_ckpt(ckpt_path, env_id, device):
 
 
 def evaluate_sac_actor(actor, env_id, device, episodes=10, seed=0):
-    """
-    Runs SAC actor in eval mode and returns list of dicts with per-episode metrics.
-    """
     max_steps = get_max_episode_steps(env_id)
 
     def make_single_env():
@@ -231,29 +201,18 @@ def evaluate_sac_actor(actor, env_id, device, episodes=10, seed=0):
     return results
 
 
-# ---------- get max episode steps for the environment ----------
-
-def get_max_episode_steps(env_id: str) -> int | None:
-    env = gym.make(env_id)
-    max_steps = getattr(env, "_max_episode_steps", None)
-    if max_steps is None and env.spec is not None:
-        max_steps = getattr(env.spec, "max_episode_steps", None)
-    env.close()
-    return max_steps
-
-
-# ---------- Main: iterate W&B runs, eval, write CSV ----------
+# ---------- Main ----------
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--entity", default="ga-rl-final-project", help="wandb entity/user")
-    parser.add_argument("--project", required=True, help="wandb project")
+    parser.add_argument("--entity", required=True, help="wandb entity/user")
+    parser.add_argument("--project", required=True, help="wandb project (ONE env+config)")
     parser.add_argument("--algo", required=True, choices=["ppo", "sac"])
     parser.add_argument("--output-csv", required=True)
-    parser.add_argument("--episodes", type=int, default=10)
+    parser.add_argument("--episodes", type=int, default=100)
     parser.add_argument("--device", type=str, default="cuda", help="'cuda' or 'cpu'")
     parser.add_argument("--env-id-filter", type=str, default=None,
-                        help="Optional env_id to filter runs (e.g. Hopper-v5)")
+                        help="Optional env_id filter (usually unnecessary if project is env-specific)")
     parser.add_argument("--max-runs", type=int, default=None,
                         help="Optional cap on number of runs to evaluate")
     args = parser.parse_args()
@@ -265,7 +224,6 @@ def main():
     api = wandb.Api()
     runs = api.runs(f"{args.entity}/{args.project}")
 
-    # Set up CSV writer
     os.makedirs(os.path.dirname(args.output_csv) or ".", exist_ok=True)
     csv_file = open(args.output_csv, "w", newline="")
     fieldnames = [
@@ -283,7 +241,6 @@ def main():
         "max_episode_steps",
         "duration_rate",
     ]
-
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
 
@@ -291,7 +248,6 @@ def main():
 
     for run in runs:
         cfg = dict(run.config)
-
         env_id = cfg.get("env_id") or cfg.get("env")
         seed = cfg.get("seed")
         exp_name = cfg.get("exp_name", "")
@@ -305,7 +261,7 @@ def main():
         if args.env_id_filter is not None and env_id != args.env_id_filter:
             continue
 
-        print(f"[INFO] Evaluating run {run.id} ({run.name}) env={env_id} seed={seed}")
+        print(f"[INFO] Evaluating run {run.id} ({run.name}), env={env_id}, seed={seed}")
 
         artifact = find_final_model_artifact(run)
         if artifact is None:
@@ -318,7 +274,6 @@ def main():
             print(f"[WARN] Failed to download checkpoint for run {run.id}: {e}")
             continue
 
-        # Load model and evaluate
         if args.algo == "ppo":
             agent = load_ppo_agent_from_ckpt(ckpt_path, env_id, gamma, device)
             ep_results = evaluate_ppo_agent(
@@ -330,32 +285,32 @@ def main():
                 actor, env_id, device, episodes=args.episodes, seed=seed
             )
 
-        # Write rows
         for ep_idx, ep in enumerate(ep_results):
             writer.writerow(
                 {
-            "project": args.project,
-            "algo": args.algo,
-            "run_id": run.id,
-            "run_name": run.name,
-            "env_id": env_id,
-            "seed": seed,
-            "exp_name": exp_name,
-            "total_timesteps": total_timesteps,
-            "episode_index": ep_idx,
-            "episodic_return": ep["episodic_return"],
-            "episode_length": ep["episode_length"],
-            "max_episode_steps": ep["max_episode_steps"],
-            "duration_rate": ep["duration_rate"],
-        }
-    )
+                    "project": args.project,
+                    "algo": args.algo,
+                    "run_id": run.id,
+                    "run_name": run.name,
+                    "env_id": env_id,
+                    "seed": seed,
+                    "exp_name": exp_name,
+                    "total_timesteps": total_timesteps,
+                    "episode_index": ep_idx,
+                    "episodic_return": ep["episodic_return"],
+                    "episode_length": ep["episode_length"],
+                    "max_episode_steps": ep["max_episode_steps"],
+                    "duration_rate": ep["duration_rate"],
+                }
+            )
 
         evaluated += 1
         if args.max_runs is not None and evaluated >= args.max_runs:
             break
 
     csv_file.close()
-    print(f"[DONE] Evaluated {evaluated} runs. Results saved to {args.output_csv}")
+    print(f"[DONE] Evaluated {evaluated} runs from project '{args.project}'.")
+    print(f"[DONE] Results saved to {args.output_csv}")
 
 
 if __name__ == "__main__":
