@@ -81,6 +81,47 @@ def download_ckpt_from_artifact(artifact, artifact_file="model_final.pt"):
     return ckpt_path
 
 
+def download_ckpt_from_run_files(run, preferred_name="model_final.pt"):
+    """
+    Fallback when no model artifact exists:
+    - Look in the run's "Files" tab.
+    - Prefer a file named `preferred_name` (e.g. model_final.pt).
+    - Otherwise, take the first .pt file.
+    Returns the local path to the downloaded checkpoint.
+    """
+    tmpdir = tempfile.mkdtemp(prefix="wandb_eval_files_")
+
+    files = list(run.files())
+    if not files:
+        raise FileNotFoundError(f"No files found for run {run.id}")
+
+    # 1) Prefer exact match
+    preferred = None
+    for f in files:
+        if f.name == preferred_name:
+            preferred = f
+            break
+
+    # 2) Otherwise pick any .pt
+    if preferred is None:
+        for f in files:
+            if f.name.endswith(".pt"):
+                preferred = f
+                break
+
+    if preferred is None:
+        raise FileNotFoundError(
+            f"No .pt checkpoint file found in files for run {run.id}"
+        )
+
+    print(f"[INFO] Using file-based checkpoint '{preferred.name}' for run {run.id}")
+    local_path = preferred.download(root=tmpdir, replace=True)
+    # wandb.File.download can return a path or a File; normalize to path
+    if hasattr(local_path, "name"):
+        local_path = os.path.join(tmpdir, local_path.name)
+    return local_path
+
+
 # ---------- PPO loading + eval ----------
 
 def load_ppo_agent_from_ckpt(ckpt_path, env_id, gamma, device):
@@ -263,16 +304,28 @@ def main():
 
         print(f"[INFO] Evaluating run {run.id} ({run.name}), env={env_id}, seed={seed}")
 
+        # Try artifact first, then fall back to run files
+        ckpt_path = None
         artifact = find_final_model_artifact(run)
-        if artifact is None:
-            print(f"[WARN] No final model artifact for run {run.id}, skipping.")
-            continue
 
-        try:
-            ckpt_path = download_ckpt_from_artifact(artifact, artifact_file="model_final.pt")
-        except Exception as e:
-            print(f"[WARN] Failed to download checkpoint for run {run.id}: {e}")
-            continue
+        if artifact is not None:
+            try:
+                ckpt_path = download_ckpt_from_artifact(
+                    artifact, artifact_file="model_final.pt"
+                )
+                print(f"[INFO] Using artifact-based checkpoint for run {run.id}")
+            except Exception as e:
+                print(f"[WARN] Failed to download artifact checkpoint for run {run.id}: {e}")
+
+        if ckpt_path is None:
+            try:
+                ckpt_path = download_ckpt_from_run_files(
+                    run, preferred_name="model_final.pt"
+                )
+            except Exception as e:
+                print(f"[WARN] No usable checkpoint in files for run {run.id}: {e}")
+                continue
+
 
         if args.algo == "ppo":
             agent = load_ppo_agent_from_ckpt(ckpt_path, env_id, gamma, device)
