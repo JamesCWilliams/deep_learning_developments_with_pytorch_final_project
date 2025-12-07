@@ -5,9 +5,10 @@ set -euo pipefail
 PY_VERSION="${PY_VERSION:-3.10.14}"
 VENV_DIR="${VENV_DIR:-venv}"
 
-# mandated Torch build (Linux/WSL with NVIDIA)
-TORCH_VER="${TORCH_VER:-2.4.1+cu121}"
-TORCH_IDX="${TORCH_IDX:-https://download.pytorch.org/whl/cu121}"
+# Torch build for RTX 5060 Ti (CUDA 12.8)
+# You can override via TORCH_VER / TORCH_IDX if needed.
+TORCH_VER="${TORCH_VER:-2.8.0+cu128}"
+TORCH_IDX="${TORCH_IDX:-https://download.pytorch.org/whl/cu128}"
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -39,6 +40,7 @@ done
 echo "==> Repo: $ROOT_DIR"
 echo "==> Target Python: $PY_VERSION"
 echo "==> Venv dir: $VENV_DIR"
+echo "==> Torch: $TORCH_VER (index: $TORCH_IDX)"
 
 maybe_apt_install() {
   if $APT_DEPS && command -v apt-get >/dev/null 2>&1; then
@@ -47,7 +49,7 @@ maybe_apt_install() {
   fi
 }
 
-# ensure pyenv 
+# ensure pyenv
 export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
@@ -111,7 +113,7 @@ pip install --upgrade pip
 # kill any accidental old installs
 pip uninstall -y gym cleanrl gymnasium || true
 
-# 1) torch first (mandated cu121 wheel)
+# 1) torch first (CUDA 12.8 wheel suitable for 5060 Ti)
 pip install "torch==${TORCH_VER}" --index-url "${TORCH_IDX}"
 
 # 2) CleanRL from GitHub, but WITHOUT deps (so it won't pull legacy gym)

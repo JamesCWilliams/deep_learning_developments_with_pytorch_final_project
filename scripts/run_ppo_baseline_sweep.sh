@@ -16,7 +16,7 @@ set -euo pipefail
 
 ENV_ID="${1:?need ENV_ID (e.g. Hopper-v5)}"
 
-SEEDS_DEFAULT="7 8 9 10"
+SEEDS_DEFAULT="1 2 3 4 5 6 7 8 9 10"
 SEEDS="${SEEDS:-$SEEDS_DEFAULT}"
 
 PROJECT="${PROJECT:-ppo_${ENV_ID}_baseline}"
